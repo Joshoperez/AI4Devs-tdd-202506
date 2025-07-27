@@ -301,3 +301,83 @@ POST http://localhost:3010/candidates
     }
 }
 ```
+
+## Tests Unitarios
+
+Este proyecto incluye una suite completa de tests unitarios en Jest para la funcionalidad de insertar candidatos, siguiendo las mejores prácticas de TDD (Test-Driven Development).
+
+### Archivos de Tests
+
+- `backend/src/tests/tests-JDP.test.ts` - Suite principal de tests
+- `backend/jest.config.js` - Configuración de Jest
+- `backend/src/tests/setup.ts` - Configuración global de tests
+
+### Ejecutar los Tests
+
+Para ejecutar los tests unitarios:
+
+```bash
+cd backend
+npm test
+```
+
+Para ejecutar tests específicos:
+
+```bash
+npm test -- --testPathPattern=tests-JDP.test.ts
+```
+
+### Cobertura de Tests
+
+La suite incluye **11 tests** organizados en tres categorías principales:
+
+#### 1. Recepción de datos del formulario (5 tests)
+- ✅ Validación de datos de candidato con información válida
+- ✅ Rechazo de datos con formato de email inválido
+- ✅ Rechazo de datos con formato de teléfono inválido
+- ✅ Validación de datos con información de educación
+- ✅ Validación de datos con experiencia laboral
+
+#### 2. Guardado en base de datos (5 tests)
+- ✅ Guardado exitoso de candidato en base de datos
+- ✅ Manejo de errores de conexión a base de datos
+- ✅ Manejo de errores de email duplicado
+- ✅ Manejo de errores de validación en la capa de servicio
+- ✅ Manejo de errores del controlador y respuesta apropiada
+
+#### 3. Tests de integración entre capas (1 test)
+- ✅ Procesamiento completo de datos de candidato a través de todas las capas
+
+### Características de los Tests
+
+- **Mocks apropiados** para Prisma Client y modelos
+- **Cobertura completa** de casos de éxito y error
+- **Validación de respuestas HTTP** correctas
+- **Manejo de errores** específicos de base de datos
+- **Tests de integración** entre diferentes capas de la aplicación
+- **Seguimiento de buenas prácticas TDD** con estructura Arrange-Act-Assert
+
+### Estructura de los Tests
+
+Los tests siguen el patrón AAA (Arrange-Act-Assert):
+
+```typescript
+test('should validate candidate data with valid information', () => {
+    // Arrange - Preparar los datos de prueba
+    const validCandidateData = {
+        firstName: 'Juan',
+        lastName: 'Pérez',
+        email: 'juan.perez@email.com'
+    };
+
+    // Act & Assert - Ejecutar y verificar
+    expect(() => validateCandidateData(validCandidateData)).not.toThrow();
+});
+```
+
+### Tecnologías Utilizadas
+
+- **Jest** - Framework de testing
+- **ts-jest** - Soporte para TypeScript
+- **Mocks** - Para simular dependencias externas
+- **Prisma Client Mocking** - Para simular operaciones de base de datos
